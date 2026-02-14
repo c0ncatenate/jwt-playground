@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import json
 import time
 import jwt
@@ -5,11 +7,10 @@ from fastapi import APIRouter, Request, Form
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 
+from app.config import LAB_JWT
+
 router = APIRouter()
 templates = Jinja2Templates(directory="templates")
-
-SECRET = "jwt-playground-secret"
-ALG = "HS256"
 
 
 @router.get("/", response_class=HTMLResponse)
@@ -58,13 +59,13 @@ async def tamper_token(
     if not error:
         # Ensure some sensible defaults so the UI stays readable.
         payload.setdefault("iat", now)
-        payload.setdefault("exp", now + 600)
+        payload.setdefault("exp", now + LAB_JWT.lifetime_seconds)
 
         if resign:
             # This simulates an attacker who *can* sign tokens (e.g. key leak).
-            token = jwt.encode(payload, SECRET, algorithm=ALG)
+            token = jwt.encode(payload, LAB_JWT.secret, algorithm=LAB_JWT.algorithm)
             try:
-                verified = jwt.decode(token, SECRET, algorithms=[ALG])
+                verified = jwt.decode(token, LAB_JWT.secret, algorithms=[LAB_JWT.algorithm])
                 token_result = {
                     "mode": "resigned",
                     "token": token,
@@ -77,7 +78,7 @@ async def tamper_token(
             # show that without the correct key, verification fails.
             # We deliberately do *not* sign it.
             try:
-                jwt.decode("forged-token", SECRET, algorithms=[ALG])
+                jwt.decode("forged-token", LAB_JWT.secret, algorithms=[LAB_JWT.algorithm])
             except jwt.PyJWTError as exc:
                 error = (
                     "Unsigned / forged token cannot be verified: "

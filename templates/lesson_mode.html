@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section>
+  <h2>Guided lesson – JWT journey</h2>
+  <p>
+    Follow these steps in order if you are using this playground to teach JWTs
+    in a workshop or to explore them on your own.
+  </p>
+
+  <ol>
+    <li>
+      <strong>Start with a happy-path token</strong> – open
+      <a href="/normal/">Scenario 1 – Signed JWT flow</a> and issue a token for
+      a test user. Point out the header and claims.
+    </li>
+    <li>
+      <strong>Try to cheat by editing JSON</strong> – open
+      <a href="/tamper/">Scenario 2 – Tampering with claims</a> and change
+      <code>role</code> from <code>user</code> to <code>admin</code>.
+      Compare the result when you re-sign vs when you send a forged token.
+    </li>
+    <li>
+      <strong>Play with time</strong> – open
+      <a href="/expiry/">Scenario 3 – Expired tokens</a> and experiment with
+      <code>iat</code>, <code>exp</code>, and clock skew.
+    </li>
+    <li>
+      <strong>Showcase bad practices</strong> – visit
+      <a href="/bad/">Scenario 4 – Bad practices</a> and talk through why weak
+      secrets and skipping verification are dangerous.
+    </li>
+    <li>
+      <strong>Scope tokens to services</strong> – use
+      <a href="/aud-iss/">Scenario 5 – Audience and issuer checks</a> to show
+      how <code>aud</code> and <code>iss</code> prevent token reuse across
+      services.
+    </li>
+  </ol>
+
+  <article>
+    <h3>Discussion prompts</h3>
+    <ul>
+      <li>Where should JWTs be stored on the client side in a real app?</li>
+      <li>How short can token lifetimes be without hurting UX?</li>
+      <li>What is your strategy for key rotation and revocation?</li>
+      <li>Which claims do you rely on for authorisation vs identification?</li>
+    </ul>
+  </article>
+
+  <article>
+    <h3>Production checklist</h3>
+    <ul>
+      <li>Use strong secrets or asymmetric keys; never check tokens with <code>alg=none</code>.</li>
+      <li>Pin allowed algorithms on the server instead of trusting the header.</li>
+      <li>Use short-lived access tokens and, if needed, refresh tokens.</li>
+      <li>Validate <code>iss</code>, <code>aud</code>, and lifetimes on every request that uses a token.</li>
+      <li>Have a plan for rotating keys and invalidating tokens early when needed.</li>
+    </ul>
+  </article>
+</section>
+{% endblock %}

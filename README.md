@@ -80,6 +80,12 @@ Two main demonstrations:
 
 ---
 
+## Guided lesson mode
+
+If you are running this in a workshop, you can start from `/lesson`
+for a guided sequence that links all the scenarios and suggests
+discussion prompts and a production checklist.
+
 ## Running locally
 
 ```bash
@@ -100,3 +106,16 @@ The app will create a virtual environment, install dependencies, and run
 - The "bad practices" scenario exists so you can have an honest
   conversation about historical JWT failures without repeating them.
 - Only use this app on systems and networks you control.
+
+### 5. Audience and issuer checks (`/aud-iss`)
+
+Tokens are often issued by a central auth service and consumed by
+multiple backends. This scenario shows why you should scope tokens
+to a specific audience and issuer.
+
+- Form lets you choose `aud` and `iss` values.
+- The lab issues a token and then tries to verify it as two different
+  services (`service-a` and `service-b`).
+- You can demonstrate how a missing or incorrect `aud`/`iss` check
+  allows tokens to be replayed where they should not be valid.
+
