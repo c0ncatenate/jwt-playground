@@ -13,8 +13,13 @@
     <summary>1. Weak secret key</summary>
     <p>
       Using an easily guessed or leaked secret key means attackers can mint
-      their own admin tokens. Issue a token with a deliberately weak secret
-      and imagine what happens if that key shows up in logs or source code.
+      their own admin tokens. The code in this lab uses a deliberately bad
+      key:
+    </p>
+    <pre><code>INSECURE_SECRET = "do-not-use-this-in-production"</code></pre>
+    <p>
+      Issue a token with this weak secret and imagine what happens if that
+      line ends up in logs, screenshots, or a public repo.
     </p>
     <form method="post" action="/bad/issue-hs256" class="grid">
       <label>
