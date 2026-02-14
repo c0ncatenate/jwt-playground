@@ -2,3 +2,4 @@ fastapi
 uvicorn[standard]
 PyJWT
 jinja2
+python-multipart
