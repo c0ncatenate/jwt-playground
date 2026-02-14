@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section>
+  <h2>Scenario 3 – Expired tokens</h2>
+  <p>
+    Control <code>iat</code> and <code>exp</code> to see when a token is considered valid
+    and when verification fails with an expiry error.
+  </p>
+
+  <form method="post" action="/expiry/issue" class="grid">
+    <label>
+      Username
+      <input type="text" name="username" value="alice" />
+    </label>
+    <label>
+      Lifetime (seconds)
+      <input type="number" name="lifetime_seconds" value="60" min="1" />
+    </label>
+    <label>
+      Backdate <code>iat</code> by (seconds)
+      <input type="number" name="backdated_seconds" value="0" min="0" />
+    </label>
+    <button type="submit" class="contrast">Issue token</button>
+  </form>
+
+  {% if result %}
+  <article class="token-panel">
+    <h3>Issued token</h3>
+    <details open>
+      <summary>JWT</summary>
+      <code class="token-string">{{ result.token }}</code>
+    </details>
+
+    <div class="grid">
+      <article>
+        <h4>Payload</h4>
+        <pre>{{ result.payload | tojson(indent=2) }}</pre>
+      </article>
+      <article>
+        <h4>Verification</h4>
+        {% if error %}
+          <p><strong>Status:</strong> {{ error }}</p>
+        {% else %}
+          <p><strong>Status:</strong> Verified successfully</p>
+          <pre>{{ result.verified | tojson(indent=2) }}</pre>
+        {% endif %}
+      </article>
+    </div>
+  </article>
+  {% endif %}
+</section>
+{% endblock %}

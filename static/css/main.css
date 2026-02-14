@@ -3,7 +3,33 @@ main.container { max-width: 960px; }
 .hero h1 { margin-bottom: 0.25rem; }
 .hero p { color: var(--muted-color); }
 
+.scenario-grid article {
+  border-radius: 0.75rem;
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  padding: 1.25rem 1.5rem;
+}
+
 .token-panel { margin-top: 1.5rem; }
-.token-string { display: block; word-wrap: break-word; font-size: 0.85rem; }
+.token-string {
+  display: block;
+  word-wrap: break-word;
+  font-size: 0.85rem;
+}
+
+.warning {
+  margin-top: 1.5rem;
+  padding: 1rem 1.25rem;
+  border-radius: 0.75rem;
+  border-left: 4px solid #f97316;
+  background: rgba(248, 250, 252, 0.03);
+}
+
+textarea {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
 
 .muted { opacity: 0.6; }
+.hint {
+  font-size: 0.8rem;
+  color: var(--muted-color);
+}

@@ -1,23 +1,26 @@
 {% extends "base.html" %}
 
 {% block content %}
-<section class="grid">
+<section class="grid scenario-grid">
   <article>
     <h2>1. Signed JWT flow</h2>
     <p>Issue a signed JWT, inspect its header and payload, and see how expiry is encoded.</p>
     <a href="/normal/" role="button">Open scenario</a>
   </article>
-  <article class="muted">
+  <article>
     <h2>2. Tampering with claims</h2>
-    <p>Coming soon: modify roles and subject, re-sign or send tampered tokens, and observe failures.</p>
+    <p>Edit the payload, try to forge roles, and contrast "just editing JSON" with actually signing tokens.</p>
+    <a href="/tamper/" role="button" class="secondary">Open scenario</a>
   </article>
-  <article class="muted">
+  <article>
     <h2>3. Expired tokens</h2>
-    <p>Coming soon: experiment with iat/exp and understand how token lifetime is enforced.</p>
+    <p>Play with <code>iat</code> and <code>exp</code> to understand how token lifetime is enforced.</p>
+    <a href="/expiry/" role="button" class="secondary">Open scenario</a>
   </article>
-  <article class="muted">
-    <h2>4. Bad practices (for training)</h2>
-    <p>Coming soon: see why disabling signature verification or misusing algorithms is dangerous.</p>
+  <article>
+    <h2>4. Bad practices (training only)</h2>
+    <p>Explore historically dangerous patterns like weak secrets and skipping verification – so you can avoid them.</p>
+    <a href="/bad/" role="button" class="secondary">Open scenario</a>
   </article>
 </section>
 {% endblock %}

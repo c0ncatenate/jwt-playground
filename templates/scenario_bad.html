@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section>
+  <h2>Scenario 4 – Bad practices (training only)</h2>
+  <p>
+    This scenario is here to show <strong>what not to do</strong> with JWTs.
+    Everything on this page is intentionally unsafe and exists purely for
+    defensive security training.
+  </p>
+
+  <details open>
+    <summary>1. Weak secret key</summary>
+    <p>
+      Using an easily guessed or leaked secret key means attackers can mint
+      their own admin tokens. Issue a token with a deliberately weak secret
+      and imagine what happens if that key shows up in logs or source code.
+    </p>
+    <form method="post" action="/bad/issue-hs256" class="grid">
+      <label>
+        Username
+        <input type="text" name="username" value="alice" />
+      </label>
+      <button type="submit" class="contrast">Issue token with weak secret</button>
+    </form>
+  </details>
+
+  <details>
+    <summary>2. Accepting alg=none / skipping verification</summary>
+    <p>
+      Some historical vulnerabilities came from servers trusting tokens with
+      <code>alg = none</code> or skipping signature verification entirely.
+      This effectively turns a JWT into an editable JSON blob.
+    </p>
+    <form method="post" action="/bad/accept-alg-none">
+      <label>
+        Token string (for demonstration)
+        <textarea name="token" rows="3" placeholder="header.payload.signature"></textarea>
+      </label>
+      <button type="submit">Simulate bad verification</button>
+    </form>
+  </details>
+
+  {% if issued %}
+  <article class="token-panel">
+    <h3>Issued with weak secret</h3>
+    <p><strong>Warning:</strong> Anyone who learns this secret can change roles, subject, and more.</p>
+    <details open>
+      <summary>JWT</summary>
+      <code class="token-string">{{ issued.token }}</code>
+    </details>
+    <h4>Payload</h4>
+    <pre>{{ issued.payload | tojson(indent=2) }}</pre>
+  </article>
+  {% endif %}
+
+  {% if verification %}
+  <article class="warning">
+    <h3>Simulated "alg=none" server behaviour</h3>
+    <p>{{ verification.warning }}</p>
+    <p><strong>Example token:</strong></p>
+    <code class="token-string">{{ verification.token_sample }}</code>
+  </article>
+  {% endif %}
+</section>
+{% endblock %}

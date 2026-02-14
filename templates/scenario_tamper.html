@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section>
+  <h2>Scenario 2 – Tampering with claims</h2>
+  <p>
+    Modify the payload of a JWT and see what happens when you try to use it.
+    This scenario contrasts an attacker who <em>cannot</em> sign tokens with one who can.
+  </p>
+
+  <form method="post" action="/tamper/experiment" class="grid">
+    <label>
+      Payload JSON
+      <textarea name="payload_json" rows="8">{{ original | default({}) | tojson(indent=2) }}</textarea>
+    </label>
+    <div>
+      <button type="submit" name="resign" value="1" class="contrast">Re-sign with lab key</button>
+      <button type="submit">Send as forged token</button>
+      <p class="hint">Re-sign simulates key leak; "forged" simulates a client that cannot sign.</p>
+    </div>
+  </form>
+
+  {% if error %}
+  <article class="warning">
+    <strong>Result:</strong>
+    <p>{{ error }}</p>
+  </article>
+  {% endif %}
+
+  {% if token_result %}
+  <article class="token-panel">
+    <h3>Issued from tampered payload (mode: {{ token_result.mode }})</h3>
+    <details open>
+      <summary>JWT</summary>
+      <code class="token-string">{{ token_result.token }}</code>
+    </details>
+    {% if token_result.verified_payload %}
+    <h4>Verified payload</h4>
+    <pre>{{ token_result.verified_payload | tojson(indent=2) }}</pre>
+    {% endif %}
+  </article>
+  {% endif %}
+</section>
+{% endblock %}
