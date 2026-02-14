@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 260" role="img" aria-labelledby="title desc">
+  <title id="title">Tampering with JWT claims</title>
+  <desc id="desc">Diagram showing editing a token's payload and the difference between unsigned and properly signed tokens.</desc>
+  <defs>
+    <linearGradient id="bg2" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#020617"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+    <style>
+      .label { fill:#e5e7eb; font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; font-size:15px; }
+      .sub { fill:#9ca3af; font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; font-size:12px; }
+      .small { fill:#9ca3af; font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; font-size:11px; }
+      .box { fill:#020617; stroke:#4ade80; stroke-width:2; rx:8; }
+      .box-bad { fill:#020617; stroke:#f97316; stroke-width:2; rx:8; }
+      .arrow { stroke:#e5e7eb; stroke-width:2; marker-end:url(#arrowhead2); }
+    </style>
+    <marker id="arrowhead2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#e5e7eb" />
+    </marker>
+  </defs>
+  <rect width="960" height="260" fill="url(#bg2)"/>
+
+  <!-- Left: valid user token -->
+  <rect class="box" x="40" y="60" width="260" height="140"/>
+  <text x="170" y="90" text-anchor="middle" class="label">Valid token</text>
+  <text x="170" y="115" text-anchor="middle" class="sub">sub = alice, role = user</text>
+  <text x="170" y="145" text-anchor="middle" class="small">header.payload.signature</text>
+
+  <!-- Middle: editor -->
+  <rect class="box" x="350" y="60" width="260" height="140"/>
+  <text x="480" y="90" text-anchor="middle" class="label">Edit payload</text>
+  <text x="480" y="115" text-anchor="middle" class="sub">role: user → admin</text>
+
+  <!-- Right top: forged (no signature) -->
+  <rect class="box-bad" x="670" y="40" width="250" height="90"/>
+  <text x="795" y="70" text-anchor="middle" class="label">Forged, not resigned</text>
+  <text x="795" y="95" text-anchor="middle" class="small">Server verifies signature → fails</text>
+
+  <!-- Right bottom: resigned with key -->
+  <rect class="box" x="670" y="130" width="250" height="90"/>
+  <text x="795" y="160" text-anchor="middle" class="label">Resigned with key</text>
+  <text x="795" y="185" text-anchor="middle" class="small">Server verifies signature → accepts</text>
+
+  <!-- Arrows -->
+  <line class="arrow" x1="300" y1="130" x2="350" y2="130" />
+  <line class="arrow" x1="610" y1="95" x2="670" y2="85" />
+  <line class="arrow" x1="610" y1="155" x2="670" y2="175" />
+
+  <text x="480" y="210" text-anchor="middle" class="small">Same edit, different outcome depending on who holds the signing key.</text>
+</svg>

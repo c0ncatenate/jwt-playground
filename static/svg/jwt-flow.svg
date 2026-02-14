@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 260" role="img" aria-labelledby="title desc">
+  <title id="title">JWT in a typical web request</title>
+  <desc id="desc">Diagram showing login, JWT issuance, and using the token in an Authorization header.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#020617"/>
+    </linearGradient>
+    <style>
+      .box { fill:#020617; stroke:#38bdf8; stroke-width:2; rx:10; }
+      .label { fill:#e5e7eb; font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; font-size:15px; }
+      .sub { fill:#9ca3af; font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; font-size:12px; }
+      .small { fill:#9ca3af; font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; font-size:11px; }
+      .arrow { stroke:#e5e7eb; stroke-width:2; marker-end:url(#arrowhead); }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#e5e7eb" />
+    </marker>
+  </defs>
+  <rect width="960" height="260" fill="url(#bg)"/>
+
+  <!-- Client -->
+  <circle cx="80" cy="140" r="26" fill="#0ea5e9"/>
+  <rect x="60" y="170" width="40" height="26" rx="4" fill="#e5e7eb"/>
+  <text x="80" y="220" text-anchor="middle" class="label">Client</text>
+
+  <!-- Auth service box -->
+  <rect class="box" x="210" y="90" width="210" height="110"/>
+  <text x="315" y="120" text-anchor="middle" class="label">Auth service</text>
+  <text x="315" y="145" text-anchor="middle" class="sub">validates creds, issues JWT</text>
+
+  <!-- API box -->
+  <rect class="box" x="520" y="90" width="210" height="110"/>
+  <text x="625" y="120" text-anchor="middle" class="label">API / application</text>
+  <text x="625" y="145" text-anchor="middle" class="sub">verifies signature, trusts claims</text>
+
+  <!-- Data store box -->
+  <rect class="box" x="810" y="110" width="110" height="90"/>
+  <text x="865" y="140" text-anchor="middle" class="label">Data</text>
+
+  <!-- Flows -->
+  <text x="145" y="115" class="small">1. Login request</text>
+  <line class="arrow" x1="120" y1="130" x2="210" y2="130" />
+
+  <text x="145" y="190" class="small">username + password</text>
+
+  <text x="420" y="80" class="small">2. JWT issued</text>
+  <line class="arrow" x1="420" y1="95" x2="330" y2="95" />
+
+  <text x="315" y="80" class="small">header.payload.signature</text>
+
+  <text x="420" y="210" class="small">3. Use token on requests</text>
+  <line class="arrow" x1="120" y1="190" x2="520" y2="190" />
+
+  <text x="320" y="230" class="small">Authorization: Bearer &lt;jwt&gt;</text>
+
+  <line class="arrow" x1="730" y1="145" x2="810" y2="145" />
+
+  <text x="625" y="200" text-anchor="middle" class="small">If signature &amp; expiry are OK,</text>
+  <text x="625" y="215" text-anchor="middle" class="small">API treats you as that user/role.</text>
+</svg>

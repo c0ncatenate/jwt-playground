@@ -1,6 +1,17 @@
 {% extends "base.html" %}
 
 {% block content %}
+<section>
+  <figure>
+    <img src="/static/svg/jwt-flow.svg" alt="JWT in a typical web request" />
+  </figure>
+  <p>
+    A JWT is a signed JSON object your server uses to remember who you are. You usually get it
+    after logging in, and then send it back on each request in an <code>Authorization: Bearer</code>
+    header so the server can verify the signature and trust the claims.
+  </p>
+</section>
+
 <section class="grid scenario-grid">
   <article>
     <h2>1. Signed JWT flow</h2>
