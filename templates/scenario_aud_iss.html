@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section>
+  <h2>Scenario 5 – Audience and issuer checks</h2>
+  <p>
+    Tokens should be scoped to a specific <code>aud</code> (audience) and <code>iss</code> (issuer).
+    This page shows what happens when a token minted for one service is replayed
+    against another.
+  </p>
+
+  <p>
+    Expected issuer: <code>{{ expected_issuer }}</code><br />
+    Service A audience: <code>{{ expected_audience }}</code><br />
+    Service B audience: <code>service-b</code>
+  </p>
+
+  <form method="post" action="/aud-iss/issue" class="grid">
+    <label>
+      Username
+      <input type="text" name="username" value="alice" />
+    </label>
+    <label>
+      Audience (<code>aud</code>)
+      <input type="text" name="audience" value="service-a" />
+    </label>
+    <label>
+      Issuer (<code>iss</code>)
+      <input type="text" name="issuer" value="{{ expected_issuer }}" />
+    </label>
+    <button type="submit" class="contrast">Issue token</button>
+  </form>
+
+  {% if result %}
+  <article class="token-panel">
+    <h3>Issued token</h3>
+    <details open>
+      <summary>JWT</summary>
+      <code class="token-string">{{ result.token }}</code>
+    </details>
+
+    <div class="grid">
+      <article>
+        <h4>Payload</h4>
+        <pre>{{ result.payload | tojson(indent=2) }}</pre>
+      </article>
+      <article>
+        <h4>Verification results</h4>
+        <h5>As Service A (<code>aud=service-a</code>)</h5>
+        {% if result.verified_service_a %}
+          <p><strong>Status:</strong> Accepted</p>
+          <pre>{{ result.verified_service_a | tojson(indent=2) }}</pre>
+        {% else %}
+          <p><strong>Status:</strong> {{ result.service_a_error }}</p>
+        {% endif %}
+
+        <h5>As Service B (<code>aud=service-b</code>)</h5>
+        {% if result.verified_service_b %}
+          <p><strong>Status:</strong> Accepted (this would be a bug)</p>
+          <pre>{{ result.verified_service_b | tojson(indent=2) }}</pre>
+        {% else %}
+          <p><strong>Status:</strong> {{ result.service_b_error }}</p>
+        {% endif %}
+      </article>
+    </div>
+  </article>
+  {% endif %}
+</section>
+{% endblock %}

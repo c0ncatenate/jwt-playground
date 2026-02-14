@@ -1,17 +1,18 @@
+from __future__ import annotations
+
 import time
 import jwt
 from fastapi import APIRouter, Request, Form
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 
+from app.config import INSECURE_JWT
+
 router = APIRouter()
 templates = Jinja2Templates(directory="templates")
 
 # NOTE: Everything in this file is intentionally wrong or unsafe.
 # It exists purely to explain what *not* to do.
-
-INSECURE_SECRET = "do-not-use-this-in-production"
-ALG_INSECURE = "HS256"
 
 
 @router.get("/", response_class=HTMLResponse)
@@ -34,9 +35,9 @@ async def issue_hs256(request: Request, username: str = Form("alice")):
         "sub": username,
         "role": "user",
         "iat": now,
-        "exp": now + 600,
+        "exp": now + INSECURE_JWT.lifetime_seconds,
     }
-    token = jwt.encode(payload, INSECURE_SECRET, algorithm=ALG_INSECURE)
+    token = jwt.encode(payload, INSECURE_JWT.secret, algorithm=INSECURE_JWT.algorithm)
 
     return templates.TemplateResponse(
         "scenario_bad.html",

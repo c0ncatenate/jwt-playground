@@ -1,14 +1,15 @@
+from __future__ import annotations
+
 import time
 import jwt
 from fastapi import APIRouter, Request, Form
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 
+from app.config import LAB_JWT
+
 router = APIRouter()
 templates = Jinja2Templates(directory="templates")
-
-SECRET = "jwt-playground-secret"
-ALG = "HS256"
 
 
 @router.get("/", response_class=HTMLResponse)
@@ -37,11 +38,11 @@ async def issue_with_lifetime(
         "exp": exp,
     }
 
-    token = jwt.encode(payload, SECRET, algorithm=ALG)
+    token = jwt.encode(payload, LAB_JWT.secret, algorithm=LAB_JWT.algorithm)
 
     # Try verifying as the server would.
     try:
-        verified = jwt.decode(token, SECRET, algorithms=[ALG])
+        verified = jwt.decode(token, LAB_JWT.secret, algorithms=[LAB_JWT.algorithm])
         error = None
     except jwt.ExpiredSignatureError as exc:
         verified = None
