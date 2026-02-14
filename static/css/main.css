@@ -33,3 +33,37 @@ textarea {
   font-size: 0.8rem;
   color: var(--muted-color);
 }
+
+/* Glossary-style inline terms */
+.term {
+  position: relative;
+  cursor: help;
+  border-bottom: 1px dotted rgba(148, 163, 184, 0.8);
+}
+
+.term::after {
+  content: attr(data-definition);
+  position: absolute;
+  left: 0;
+  top: 130%;
+  min-width: 220px;
+  max-width: 320px;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  background: rgba(15, 23, 42, 0.97);
+  color: #e5e7eb;
+  font-size: 0.8rem;
+  line-height: 1.2;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.6);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(4px);
+  transition: opacity 0.12s ease-out, transform 0.12s ease-out;
+  z-index: 20;
+}
+
+.term:hover::after,
+.term:focus-visible::after {
+  opacity: 1;
+  transform: translateY(0);
+}

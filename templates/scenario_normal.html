@@ -3,8 +3,18 @@
 {% block content %}
 <section>
   <h2>Scenario 1 – Signed JWT flow</h2>
-  <p>Log in as a user, issue a signed JWT, and inspect its header and payload. This is the "good" path.
-  Use this to build intuition before we start breaking things.</p>
+  <p>
+    Log in as a user, issue a signed
+    <span class="term" data-definition="JSON Web Token – a signed JSON object the server uses to remember who you are.">JWT</span>,
+    and inspect its header and payload. This is the "good" path and a baseline
+    for the other scenarios.
+  </p>
+
+  <ol>
+    <li>Pick a username (e.g. <code>alice</code>).</li>
+    <li>Click <strong>Issue token</strong>.</li>
+    <li>Look at the claims and hover over underlined terms to see what they mean.</li>
+  </ol>
 
   <form method="post" action="/normal/issue" class="grid">
     <label>
@@ -18,20 +28,45 @@
   <article class="token-panel">
     <h3>Issued token</h3>
     <details open>
-      <summary>JWT</summary>
+      <summary>
+        <span class="term" data-definition="The compact string that gets sent in the Authorization header.">JWT string</span>
+      </summary>
       <code class="token-string">{{ result.token }}</code>
     </details>
 
     <div class="grid">
       <article>
         <h4>Header</h4>
+        <p>
+          The header says <span class="term" data-definition="The algorithm used to sign the token. HS256 = HMAC-SHA256 with a shared secret.">alg</span>
+          and <span class="term" data-definition="Type – here it is always 'JWT'.">typ</span>.
+        </p>
         <pre>{{ result.header | tojson(indent=2) }}</pre>
       </article>
       <article>
         <h4>Payload (claims)</h4>
+        <p>
+          Common claims:
+          <span class="term" data-definition="Subject – who this token is about (user id or username).">sub</span>,
+          <span class="term" data-definition="Role or permissions – how the app decides what you can do.">role</span>,
+          <span class="term" data-definition="Issued At – when the token was created (seconds since 1970).">iat</span>,
+          <span class="term" data-definition="Expiry – after this time the server should reject the token.">exp</span>.
+        </p>
         <pre>{{ result.payload | tojson(indent=2) }}</pre>
       </article>
     </div>
+
+    <article>
+      <h4>Where does this go in real requests?</h4>
+      <p>
+        After login, a client typically sends the token in an
+        <span class="term" data-definition="HTTP header used to send credentials or tokens with a request.">Authorization</span>
+        header like this:
+      </p>
+      <pre><code>GET /some-api HTTP/1.1
+Host: api.example.com
+Authorization: Bearer {{ result.token }}</code></pre>
+    </article>
   </article>
   {% endif %}
 </section>
