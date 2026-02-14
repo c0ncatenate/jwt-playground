@@ -1,0 +1,9 @@
+main.container { max-width: 960px; }
+.hero { margin-block: 2rem 1.5rem; }
+.hero h1 { margin-bottom: 0.25rem; }
+.hero p { color: var(--muted-color); }
+
+.token-panel { margin-top: 1.5rem; }
+.token-string { display: block; word-wrap: break-word; font-size: 0.85rem; }
+
+.muted { opacity: 0.6; }

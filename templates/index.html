@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="grid">
+  <article>
+    <h2>1. Signed JWT flow</h2>
+    <p>Issue a signed JWT, inspect its header and payload, and see how expiry is encoded.</p>
+    <a href="/normal/" role="button">Open scenario</a>
+  </article>
+  <article class="muted">
+    <h2>2. Tampering with claims</h2>
+    <p>Coming soon: modify roles and subject, re-sign or send tampered tokens, and observe failures.</p>
+  </article>
+  <article class="muted">
+    <h2>3. Expired tokens</h2>
+    <p>Coming soon: experiment with iat/exp and understand how token lifetime is enforced.</p>
+  </article>
+  <article class="muted">
+    <h2>4. Bad practices (for training)</h2>
+    <p>Coming soon: see why disabling signature verification or misusing algorithms is dangerous.</p>
+  </article>
+</section>
+{% endblock %}

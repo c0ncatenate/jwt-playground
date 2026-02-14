@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section>
+  <h2>Scenario 1 – Signed JWT flow</h2>
+  <p>Log in as a user, issue a signed JWT, and inspect its header and payload. This is the "good" path.
+  Use this to build intuition before we start breaking things.</p>
+
+  <form method="post" action="/normal/issue" class="grid">
+    <label>
+      Username
+      <input type="text" name="username" value="alice" />
+    </label>
+    <button type="submit" class="contrast">Issue token</button>
+  </form>
+
+  {% if result %}
+  <article class="token-panel">
+    <h3>Issued token</h3>
+    <details open>
+      <summary>JWT</summary>
+      <code class="token-string">{{ result.token }}</code>
+    </details>
+
+    <div class="grid">
+      <article>
+        <h4>Header</h4>
+        <pre>{{ result.header | tojson(indent=2) }}</pre>
+      </article>
+      <article>
+        <h4>Payload (claims)</h4>
+        <pre>{{ result.payload | tojson(indent=2) }}</pre>
+      </article>
+    </div>
+  </article>
+  {% endif %}
+</section>
+{% endblock %}
