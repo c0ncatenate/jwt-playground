@@ -6,7 +6,8 @@ main.container { max-width: 960px; }
 .scenario-grid {
   /* Make scenario cards readable on wider screens by preventing
      ultra-narrow columns; cards will wrap onto new rows instead. */
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  /* Stack scenarios vertically for a step-by-step feel */
+  grid-template-columns: 1fr;
 }
 
 .scenario-grid article {
